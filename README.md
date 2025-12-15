@@ -89,6 +89,17 @@ docker run -d \
   ghcr.io/eggacheb/starlia:latest
 ```
 
+**使用 MySQL 数据库：**
+
+```bash
+docker run -d \
+  --name starlia \
+  -p 8080:80 \
+  -e PASSWORD=your_secure_password \
+  -e DATABASE_URL=mysql://user:password@host:3306/database \
+  ghcr.io/eggacheb/starlia:latest
+```
+
 #### 使用 Docker Compose
 
 1. **创建 `docker-compose.yml`**
@@ -118,6 +129,20 @@ docker-compose up -d
 3. **访问应用**
 - 打开浏览器访问 `http://your-server:8080`
 - 使用设置的 `PASSWORD` 登录
+
+**使用 MySQL 数据库的 Docker Compose 配置：**
+
+```yaml
+services:
+  starlia:
+    image: ghcr.io/eggacheb/starlia:latest
+    ports:
+      - "8080:80"
+    environment:
+      - PASSWORD=your_secure_password
+      - DATABASE_URL=mysql://user:password@your-mysql-host:3306/database
+    restart: unless-stopped
+```
 
 ---
 
