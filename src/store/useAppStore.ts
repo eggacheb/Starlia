@@ -74,7 +74,7 @@ const defaultSettings: AppSettings = {
   isPro: true,
   sendWithModifier: false,
   enableCdnImageProcessing: true,
-  enableArcade: true,
+  enableArcade: false,
 };
 
 export const useAppStore = create<AppState>()((set, get) => ({

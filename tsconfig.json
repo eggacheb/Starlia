@@ -11,7 +11,8 @@
     ],
     "skipLibCheck": true,
     "types": [
-      "node"
+      "node",
+      "bun-types"
     ],
     "moduleResolution": "bundler",
     "isolatedModules": true,
@@ -23,8 +24,12 @@
       "@/*": [
         "./src/*"
       ],
-      "react": ["./node_modules/preact/compat"],
-      "react-dom": ["./node_modules/preact/compat"]
+      "react": [
+        "./node_modules/preact/compat"
+      ],
+      "react-dom": [
+        "./node_modules/preact/compat"
+      ]
     },
     "allowImportingTsExtensions": true,
     "noEmit": true
