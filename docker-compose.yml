@@ -14,5 +14,16 @@ services:
       # - DATABASE_URL=mysql://user:password@host:3306/database
     restart: unless-stopped
 
+# 可选：如果需要 MySQL 服务，取消下面的注释
+#   mysql:
+#     image: mysql:8.0
+#     environment:
+#       - MYSQL_ROOT_PASSWORD=your_mysql_password
+#       - MYSQL_DATABASE=starlia
+#     volumes:
+#       - mysql_data:/var/lib/mysql
+#     restart: unless-stopped
+
 volumes:
   starlia_data:
+  # mysql_data:

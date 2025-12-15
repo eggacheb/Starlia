@@ -224,7 +224,7 @@ const App: React.FC = () => {
           <div className="hidden sm:block">
             <h1 className="text-lg font-bold tracking-tight text-gray-900 dark:text-white">Starlia</h1>
             <p className="text-xs text-gray-500 dark:text-gray-400">
-              星璐 AI 绘画助手
+              星璃 AI 绘画助手
             </p>
           </div>
         </div>

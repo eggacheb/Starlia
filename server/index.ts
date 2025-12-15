@@ -3,7 +3,9 @@ import { serveStatic } from 'hono/bun';
 import { cors } from 'hono/cors';
 import { jwt } from 'hono/jwt';
 import { sign, verify } from 'hono/jwt';
+import { streamSSE } from 'hono/streaming';
 import { initDatabase, db, isMySQL } from './db';
+import { streamGeminiResponse, generateContent, type ChatRequest } from './geminiProxy';
 
 const app = new Hono();
 
@@ -285,6 +287,50 @@ app.delete('/api/images/:id', async (c) => {
 app.delete('/api/images', async (c) => {
     await db.run('DELETE FROM image_history');
     return c.json({ success: true });
+});
+
+// ==================== Chat Routes (Gemini Proxy) ====================
+
+// SSE streaming chat endpoint
+app.post('/api/chat/stream', async (c) => {
+    try {
+        const request = await c.req.json() as ChatRequest;
+
+        return streamSSE(c, async (stream) => {
+            try {
+                for await (const chunk of streamGeminiResponse(request)) {
+                    await stream.writeSSE({
+                        data: JSON.stringify(chunk),
+                        event: 'message'
+                    });
+                }
+                await stream.writeSSE({
+                    data: 'done',
+                    event: 'done'
+                });
+            } catch (error: any) {
+                await stream.writeSSE({
+                    data: JSON.stringify({ error: error.message }),
+                    event: 'error'
+                });
+            }
+        });
+    } catch (error: any) {
+        console.error('❌ Chat stream error:', error.message || error);
+        return c.json({ error: error.message || 'Unknown error' }, 500);
+    }
+});
+
+// Non-streaming chat endpoint
+app.post('/api/chat', async (c) => {
+    try {
+        const request = await c.req.json() as ChatRequest;
+        const result = await generateContent(request);
+        return c.json(result);
+    } catch (error: any) {
+        console.error('❌ Chat error:', error.message || error);
+        return c.json({ error: error.message || 'Unknown error' }, 500);
+    }
 });
 
 // ==================== Static Files (Production) ====================
