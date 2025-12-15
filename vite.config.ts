@@ -1,0 +1,68 @@
+import path from 'path';
+import { defineConfig, loadEnv } from 'vite';
+import preact from '@preact/preset-vite';
+import tailwindcss from '@tailwindcss/vite';
+import { VitePWA } from 'vite-plugin-pwa';
+
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, '.', '');
+  return {
+    server: {
+      port: 5173,
+      host: '0.0.0.0',
+    },
+    plugins: [
+      preact(),
+      tailwindcss(),
+      VitePWA({
+        registerType: 'autoUpdate',
+        includeAssets: ['logo.svg', 'icon-192x192.png', 'icon-512x512.png'],
+        devOptions: {
+          enabled: true
+        },
+        manifest: {
+          name: 'Starlia',
+          short_name: 'Starlia',
+          description: '星璃 AI 绘画助手',
+          theme_color: '#ffffff',
+          background_color: '#ffffff',
+          display: 'standalone',
+          orientation: 'portrait',
+          icons: [
+            {
+              src: 'icon-192x192.png',
+              sizes: '192x192',
+              type: 'image/png'
+            },
+            {
+              src: 'icon-512x512.png',
+              sizes: '512x512',
+              type: 'image/png'
+            }
+          ]
+        }
+      }),
+    ],
+    define: {
+    },
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, './src'),
+        'react': 'preact/compat',
+        'react-dom/test-utils': 'preact/test-utils',
+        'react-dom': 'preact/compat',     // Must be below test-utils
+        'react/jsx-runtime': 'preact/jsx-runtime'
+      }
+    },
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'google-genai': ['@google/genai'],
+            'markdown-libs': ['react-markdown', 'remark-gfm']
+          }
+        }
+      }
+    }
+  };
+});

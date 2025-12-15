@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#030712">
+  <meta name="description" content="Starlia - AI 多模态聊天应用">
+  <link rel="apple-touch-icon" href="/icon-192x192.png">
+  <title>Starlia | AI Chat</title>
+  <link rel="icon" href="/logo.svg" type="image/svg+xml" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    .app-loading {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #ffffff;
+      z-index: 9999;
+      transition: opacity 0.3s ease-out;
+      pointer-events: none;
+    }
+
+    .app-loading-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .app-loading-logo {
+      width: 64px;
+      height: 64px;
+      animation: loading-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+
+    @keyframes loading-pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.8;
+        transform: scale(0.95);
+      }
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .app-loading {
+        background-color: #030712;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app-loading" class="app-loading">
+    <div class="app-loading-content">
+      <svg class="app-loading-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+        <defs>
+          <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#fde047" />
+            <stop offset="50%" style="stop-color:#facc15" />
+            <stop offset="100%" style="stop-color:#eab308" />
+          </linearGradient>
+        </defs>
+        <path d="M64 8 L72 48 L112 56 L72 64 L64 104 L56 64 L16 56 L56 48 Z" fill="url(#goldGrad)" />
+        <path d="M100 16 L103 26 L113 29 L103 32 L100 42 L97 32 L87 29 L97 26 Z" fill="url(#goldGrad)" />
+        <path d="M28 86 L31 96 L41 99 L31 102 L28 112 L25 102 L15 99 L25 96 Z" fill="url(#goldGrad)" />
+      </svg>
+    </div>
+  </div>
+  <div id="root"></div>
+  <script type="module" src="/src/index.tsx"></script>
+</body>
+
+</html>

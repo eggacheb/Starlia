@@ -1,0 +1,28 @@
+services:
+  starlia:
+    image: ghcr.io/eggacheb/starlia:latest
+    # 如需本地构建，注释上面的 image 并取消下面的 build 注释
+    # build: .
+    ports:
+      - "8080:80"
+    volumes:
+      - starlia_data:/data
+    environment:
+      - PASSWORD=your_password  # 请修改为安全的密码
+      # 可选：使用 MySQL 数据库（不设置则默认使用 SQLite）
+      # - DATABASE_URL=mysql://user:password@host:3306/database
+    restart: unless-stopped
+
+# 可选：如果需要 MySQL 服务，取消下面的注释
+#   mysql:
+#     image: mysql:8.0
+#     environment:
+#       - MYSQL_ROOT_PASSWORD=your_mysql_password
+#       - MYSQL_DATABASE=starlia
+#     volumes:
+#       - mysql_data:/var/lib/mysql
+#     restart: unless-stopped
+
+volumes:
+  starlia_data:
+  # mysql_data:
